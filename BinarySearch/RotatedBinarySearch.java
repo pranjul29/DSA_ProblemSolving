@@ -32,32 +32,47 @@ Constraints:
  */
 public class RotatedBinarySearch {
     public static int search(final int[] A, int B) {
-        int N = A.length;
-        int low = 0;
-        int difference = 0;
-        for(int i = 1;i<N;i++)
+        int k = 0;
+        int low = 1;
+        int high = A.length-1;
+        while(low<=high)
         {
-            if(A[i]<A[i-1])
+            int mid = low + (high-low)/2;
+            if(A[mid]>A[0])
             {
-                difference = i;
-                break;
+                low = mid+1;
+            }
+            else if(A[mid] < A[0])
+            {
+                k = mid;
+                high = mid-1;
             }
         }
-        int high = N-1;
-        while(low <= high)
+        System.out.println("K: "+k);
+        if(B >= A[0])
         {
-            int mid = (low+high)/2;
-            
-            if(A[(mid+difference)%N] == B)
-                return (mid+difference)%N;
-            else if(A[(mid+difference)%N] < B)
+            low = 0;
+            high = k-1;
+            if(k == 0)
+                high = A.length-1;
+        }
+        else
+        {
+            low = k;
+            high = A.length-1;
+        }
+        while(low<=high)
+        {
+            int mid = low + (high-low)/2;
+            if(A[mid] == B)
+                return mid;
+            else if(A[mid] < B)
             {
                 low = mid+1;
             }
             else
             {
                 high = mid-1;
-                
             }
         }
         return -1;
