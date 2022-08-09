@@ -40,13 +40,8 @@ public class MergeOverlappingIntervals {
             int N = result.size();
             while(j<N && j>=0)
             {
-                if(curr.start > result.get(j).end)
+                if((curr.start > result.get(j).end) || (curr.end < result.get(j).start))
                 { 
-                    result.add(curr);
-                    j++;
-                }
-                else if(curr.end < result.get(j).start)
-                {
                     result.add(curr);
                     j++;
                 }
