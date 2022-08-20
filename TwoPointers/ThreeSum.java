@@ -1,65 +1,89 @@
 /*
-Source: https://www.scaler.com/academy/mentee-dashboard/class/29510/assignment/problems/170/?navref=cl_pb_nv_tb
-Source: https://leetcode.com/problems/3sum/
+Source: https://www.scaler.com/academy/mentee-dashboard/class/29510/homework/problems/165/?navref=cl_pb_nv_tb
+Source: https://leetcode.com/problems/3sum-closest/
 
-Given an array A of N integers, are there elements a, b, c in S such that a + b + c = 0
-Find all unique triplets in the array which gives the sum of zero.
-
-Note:
-Elements in a triplet (a,b,c) must be in non-descending order. (ie, a ≤ b ≤ c) The solution set must not contain duplicate triplets.
+Given an array A of N integers, find three integers in A such that the sum is closest to a given number B. Return the sum of those three integers.
+Assume that there will only be one solution.
 
 Problem Constraints
-
-0 <= N <= 7000
+-10^8 <= B <= 10^8
+1 <= N <= 10^4
 -10^8 <= A[i] <= 10^8
 
 Example Input
-A = [-1,0,1,2,-1,4]
+Input 1:
+A = [-1, 2, 1, -4]
+B = 1
+Input 2:
+A = [1, 2, 3]
+B = 6
 
 Example Output
-[ [-1,0,1],
-  [-1,-1,2] ]
+Output 1:
+2
+Output 2:
+6
+
+Example Explanation
+Explanation 1:
+ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2)
+Explanation 2:
+ Take all elements to get exactly 6.
 */
 import java.util.*;
 public class ThreeSum {
-    public static ArrayList<ArrayList<Integer>> threeSum(ArrayList<Integer> A) {
-        Collections.sort(A);
-        HashSet<ArrayList<Integer>> result = new HashSet<>();
-        for(int k = 0;k<A.size();k++)
+    public static int threeSumClosest(int[] A, int B) {
+        Arrays.sort(A);
+        int first = -1;
+        int second = -1;
+        int third = -1;
+        long minimum_diff = Integer.MAX_VALUE;
+        for(int k = 0;k<A.length;k++)
         {
-            int a = A.get(k);
-            int target = -a;
+            long target = 1l*B - 1l*A[k];
             int i = k+1;
-            int j = A.size()-1;
+            int j = A.length-1;
             while(i<j)
             {
-                int temp = A.get(i) + A.get(j);
-                if(temp == target)
+                long sum = 1l*A[i] + 1l*A[j];
+                if(sum == target)
                 {
-                    ArrayList<Integer> temp_result = new ArrayList<>();
-                    temp_result.add(a);
-                    temp_result.add(A.get(i));
-                    temp_result.add(A.get(j));
-                    result.add(temp_result);
-                    i++;
-                    j--;
-                    //temp_result.clear();
+                    minimum_diff = 0;
+                    first = A[i];
+                    second = A[j];
+                    third = A[k];
+                    break;
                 }
-                else if(temp < target)
+                else if(sum < target)
                 {
+                    if(minimum_diff > Math.abs(sum-target))
+                    {
+                        minimum_diff = Math.abs(sum-target);
+                        first = A[i];
+                        second = A[j];
+                        third = A[k];
+                    }
                     i++;
                 }
                 else
+                {
+                    if(minimum_diff > Math.abs(sum-target))
+                    {
+                        minimum_diff = Math.abs(sum-target);
+                        first = A[i];
+                        second = A[j];
+                        third = A[k];
+                    }
                     j--;
+                }
             }
         }
-        return new ArrayList<ArrayList<Integer>>(result);
+        return first+second+third;
     }
     public static void main(String[] args) {
-        int[] arr = {1, -4, 0, 0, 5, -5, 1, 0, -2, 4, -4, 1, -1, -4, 3, 4, -1, -1, -3};
-        ArrayList<Integer> A = new ArrayList<>();
-        for(int i = 0;i<arr.length;i++)
-            A.add(arr[i]);
-        System.out.println(threeSum(A));
+        // int[] arr = {-5, 1, 4, -7, 10, -7, 0, 7, 3, 0, -2, -5, -3, -6, 4, -7, -8, 0, 4, 9, 4, 1, -8, -6, -6, 0, -9, 5, 3, -9, -5, -9, 6, 3, 8, -10, 1, -2, 2, 1, -9, 2, -3, 9, 9, -10, 0, -9, -2, 7, 0, -4, -3, 1, 6, -3};
+        int[] arr = {5, -2, -1, -10, 10};
+        int B = 5;
+        System.out.println(threeSumClosest(arr, B));
     }
 }
