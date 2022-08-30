@@ -1,5 +1,6 @@
 /*
 Source: https://www.scaler.com/academy/mentee-dashboard/class/29520/assignment/problems/4370/?navref=cl_pb_nv_tb
+Source: https://leetcode.com/problems/middle-of-the-linked-list/
 Given a linked list of integers, find and return the middle element of the linked list.
 NOTE: If there are N nodes in the linked list and N is even then return the (N/2 + 1)th element.
 
@@ -33,30 +34,16 @@ class ListNode {
 }
 public class MiddleElementOfLinkedList {
     public static int solve(ListNode A) {
-        int count = 0;
-        ListNode temp = A;
-        while(temp.next!=null)
+        if(A == null)
+            return -1;
+        ListNode fast = A;
+        ListNode slow = A;
+        while(fast!=null && fast.next!=null)
         {
-            count++;
-            temp = temp.next;
+            fast = fast.next.next;
+            slow = slow.next;
         }
-        count++;
-        int mid = 0;
-        if(count%2 == 0)
-        {
-            mid = (count+1)/2;
-        }
-        else
-        {
-            mid = count/2;
-        }
-        temp = A;
-        while(mid!=0)
-        {
-            temp = temp.next;
-            mid--;
-        }
-        return temp.val;
+        return slow.val;
     }
     public static void main(String[] args) {
         ListNode head = new ListNode();
