@@ -1,4 +1,6 @@
 /*
+Source: https://www.scaler.com/academy/mentee-dashboard/class/29524/assignment/problems/331/?navref=cl_pb_nv_tb
+Source: https://leetcode.com/problems/palindrome-linked-list/
 Given the head of a singly linked list, return true if it is a palindrome.
 
 Example 1:
@@ -21,38 +23,40 @@ class ListNode {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 public class PalindromeLinkedList {
-    public static boolean isPalindrome(ListNode head) {
-        ListNode temp = head;
-        int count = 0;
-        while(temp!=null)
+    public static ListNode reverse(ListNode A)
+    {
+        ListNode prev = null;
+        ListNode curr = A;
+        while(curr!=null)
         {
-            count++;
-            temp = temp.next;
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        boolean even = count%2 == 0 ? true : false;
-        count = count/2;
-        temp = head;
-        Stack<Integer> stack = new Stack<>();
-        while(count!=0)
+        return prev;
+    }
+    public static boolean isPalindrome(ListNode A) {
+        ListNode slow = A;
+        ListNode fast = A;
+        while(fast.next!=null && fast.next.next!=null)
         {
-            stack.push(temp.val);
-            temp = temp.next;
-            count--;
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        if(!even)
+        ListNode middle = slow.next;
+        slow.next = null;
+        middle = reverse(middle);
+        ListNode temp1 = A;
+        ListNode temp2 = middle;
+        while(temp1!=null && temp2!=null)
         {
-            temp = temp.next;
-        }
-        while(!stack.isEmpty())
-        {
-            Integer a = stack.pop();
-            Integer b = temp.val;
-            if(a!=b)
+            if(temp1.val !=temp2.val)
+            {
                 return false;
-           // System.out.println(stack);
-            //System.out.println(temp.val);
-            temp = temp.next;
-            
+            }
+            temp1 = temp1.next;
+            temp2 = temp2.next;
         }
         return true;
     }
