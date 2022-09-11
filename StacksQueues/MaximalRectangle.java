@@ -1,5 +1,6 @@
 /*
 Source: https://leetcode.com/problems/maximal-rectangle/
+Source: https://www.scaler.com/academy/mentee-dashboard/class/34901/homework/problems/4349/?navref=cl_pb_nv_tb
 Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
 
 Example 1:
