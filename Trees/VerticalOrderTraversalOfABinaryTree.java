@@ -54,86 +54,131 @@ class TreeNode {
         this.right = right;
     }
 }
-public class VerticalOrderTraversalOfABinaryTree {
-    static ArrayList<ArrayList<Integer>> values = new ArrayList<>();
-    public static void fillList(TreeNode root, int row, int column)
+class Pair
+{
+    TreeNode node;
+    int column;
+    public Pair(TreeNode node,int column)
     {
-        if(root == null)
-            return;
-        ArrayList<Integer> element_info = new ArrayList<Integer>();
-        element_info.add(column);
-        element_info.add(root.val);
-        element_info.add(row);
-        values.add(element_info);
-        fillList(root.left,row+1,column-1);
-        fillList(root.right,row+1,column+1);
+        this.node = node;
+        this.column = column;
     }
-    public static List<List<Integer>> verticalTraversal(TreeNode root) {
-        fillList(root,0,0);
-        //System.out.println(values);
-        Collections.sort(values, new Comparator<ArrayList<Integer>>() {
-            public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
-                if(o1.get(0) < o2.get(0))
-                {
-                    return -1;
-                }
-                else if(o1.get(0) > o2.get(0))
-                {
-                    return 1;
-                }
-                else
-                {
-                    if(o1.get(2) < o2.get(2))
-                    {
-                        return -1;
-                    }
-                    else if(o1.get(2) > o2.get(2))
-                    {
-                        return 1;
-                    }
-                    else
-                        return o1.get(1).compareTo(o2.get(1));    
-                }
-            }
-        });
-        //System.out.println(values);
-        List<List<Integer>> result = new ArrayList<>();
-        if(values.size() == 0)
-            return result;
-        List<Integer> temp = new ArrayList<Integer>();
-        temp.add(values.get(0).get(1));
-        //System.out.println(temp);
-        for(int i = 1;i<values.size();i++)
+}
+public class VerticalOrderTraversalOfABinaryTree {
+    // static ArrayList<ArrayList<Integer>> values = new ArrayList<>();
+    // public static void fillList(TreeNode root, int row, int column)
+    // {
+    //     if(root == null)
+    //         return;
+    //     ArrayList<Integer> element_info = new ArrayList<Integer>();
+    //     element_info.add(column);
+    //     element_info.add(root.val);
+    //     element_info.add(row);
+    //     values.add(element_info);
+    //     fillList(root.left,row+1,column-1);
+    //     fillList(root.right,row+1,column+1);
+    // }
+    // public static List<List<Integer>> verticalTraversal(TreeNode root) {
+    //     fillList(root,0,0);
+    //     //System.out.println(values);
+    //     Collections.sort(values, new Comparator<ArrayList<Integer>>() {
+    //         public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
+    //             if(o1.get(0) < o2.get(0))
+    //             {
+    //                 return -1;
+    //             }
+    //             else if(o1.get(0) > o2.get(0))
+    //             {
+    //                 return 1;
+    //             }
+    //             else
+    //             {
+    //                 if(o1.get(2) < o2.get(2))
+    //                 {
+    //                     return -1;
+    //                 }
+    //                 else if(o1.get(2) > o2.get(2))
+    //                 {
+    //                     return 1;
+    //                 }
+    //                 else
+    //                     return o1.get(1).compareTo(o2.get(1));    
+    //             }
+    //         }
+    //     });
+    //     //System.out.println(values);
+    //     List<List<Integer>> result = new ArrayList<>();
+    //     if(values.size() == 0)
+    //         return result;
+    //     List<Integer> temp = new ArrayList<Integer>();
+    //     temp.add(values.get(0).get(1));
+    //     //System.out.println(temp);
+    //     for(int i = 1;i<values.size();i++)
+    //     {
+    //         //System.out.println(temp);
+    //         if(values.get(i).get(0) == values.get(i-1).get(0))
+    //         {
+    //             temp.add(values.get(i).get(1));
+    //             if(i == values.size() - 1)
+    //             {
+    //                 result.add(temp);
+    //                 //System.out.println(result);
+    //             }
+    //         }
+    //         else
+    //         {
+    //             List<Integer> temp_result = new ArrayList<Integer>(temp);
+    //             result.add(temp_result);
+    //             //System.out.println(result);
+    //             temp.clear();
+    //             temp.add(values.get(i).get(1));
+    //             if(i == values.size() - 1)
+    //             {
+    //                 result.add(temp);
+    //               //  System.out.println(result);
+    //             }
+    //         }
+    //         //System.out.println(temp);
+    //     }
+    //     return result;
+    // }
+    public static ArrayList<ArrayList<Integer>> verticalOrderTraversal(TreeNode A) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        Queue<Pair> queue = new LinkedList<>();
+        HashMap<Integer,ArrayList<Integer>> map = new HashMap<>();
+        queue.add(new Pair(A,0));
+        int max_level = Integer.MIN_VALUE;
+        int min_level = Integer.MAX_VALUE;
+        while(!queue.isEmpty())
         {
-            //System.out.println(temp);
-            if(values.get(i).get(0) == values.get(i-1).get(0))
+            Pair temp = queue.peek();
+            queue.remove();
+            TreeNode temp_node = temp.node;
+            int temp_column = temp.column;
+            ArrayList<Integer> temp_level_list = map.getOrDefault(temp_column,new ArrayList<Integer>());
+            temp_level_list.add(temp_node.val);
+            map.put(temp_column,temp_level_list);
+            if(temp_node.left!=null)
             {
-                temp.add(values.get(i).get(1));
-                if(i == values.size() - 1)
-                {
-                    result.add(temp);
-                    //System.out.println(result);
-                }
+                queue.add(new Pair(temp_node.left,temp_column-1));
             }
-            else
+            if(temp_node.right!=null)
             {
-                List<Integer> temp_result = new ArrayList<Integer>(temp);
-                result.add(temp_result);
-                //System.out.println(result);
-                temp.clear();
-                temp.add(values.get(i).get(1));
-                if(i == values.size() - 1)
-                {
-                    result.add(temp);
-                  //  System.out.println(result);
-                }
+                queue.add(new Pair(temp_node.right,temp_column+1));
             }
-            //System.out.println(temp);
+            max_level = Math.max(temp_column,max_level);
+            min_level = Math.min(temp_column,min_level);
+        }
+        for(int i = min_level;i<=max_level;i++)
+        {
+            result.add(map.get(i));
         }
         return result;
+
     }
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1,new TreeNode(2,new TreeNode(4),new TreeNode(5)),new TreeNode(3,new TreeNode(6),new TreeNode(7)));
-        System.out.println(verticalTraversal(root));
+        //System.out.println(verticalTraversal(root));
+        System.out.println(verticalOrderTraversal(root));
     }
 }
