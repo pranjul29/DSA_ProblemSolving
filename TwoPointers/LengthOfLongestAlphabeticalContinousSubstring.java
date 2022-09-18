@@ -1,0 +1,53 @@
+/*
+Source: https://leetcode.com/problems/length-of-the-longest-alphabetical-continuous-substring/
+An alphabetical continuous string is a string consisting of consecutive letters in the alphabet. In other words, it is any substring of the string "abcdefghijklmnopqrstuvwxyz".
+For example, "abc" is an alphabetical continuous string, while "acb" and "za" are not.
+Given a string s consisting of lowercase letters only, return the length of the longest alphabetical continuous substring.
+
+Example 1:
+Input: s = "abacaba"
+Output: 2
+Explanation: There are 4 distinct continuous substrings: "a", "b", "c" and "ab".
+"ab" is the longest continuous substring.
+Example 2:
+Input: s = "abcde"
+Output: 5
+Explanation: "abcde" is the longest continuous substring.
+ 
+Constraints:
+
+1 <= s.length <= 10^5
+s consists of only English lowercase letters.
+*/
+public class LengthOfLongestAlphabeticalContinousSubstring {
+    public static int longestContinuousSubstring(String s) {
+        char[] char_array = s.toCharArray();
+        int first = 0;
+        int second = 1;
+        int maximum = 1;
+        while(first<second && second < char_array.length)
+        {
+            if((char_array[second]-char_array[second-1]) == 1)
+            {
+                second++;
+            }
+            else
+            {
+                int length = second-first;
+                maximum = Math.max(length,maximum);
+                first = second;
+                second = second+1;
+            }
+        }
+        if(second == char_array.length)
+        {
+            int length = second-first;
+            maximum = Math.max(length,maximum);
+        }
+        return maximum;
+    }
+    public static void main(String[] args) {
+        String A = new String("abacasbcabc");
+        System.out.println(longestContinuousSubstring(A));
+    }
+}
