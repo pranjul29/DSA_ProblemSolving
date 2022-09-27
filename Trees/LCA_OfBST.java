@@ -34,53 +34,23 @@ class TreeNode {
     }
 public class LCA_OfBST {
     public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null)
-            return root;
-        if(root.val == p.val)
+        int minimum = Math.min(p.val,q.val);
+        int maximum = Math.max(p.val,q.val);
+        TreeNode curr = root;
+        while(curr!=null)
         {
-            if(q.val < p.val)
+            if((curr.val > minimum && curr.val < maximum) || curr == p || curr == q)
+                return curr;
+            if(curr.val > maximum)
             {
-                if(root.left!=null && root.left.val == q.val)
-                    return root;
+                curr = curr.left;
             }
-            else
+            if(curr.val < minimum)
             {
-                if(root.right!=null && root.right.val == q.val)
-                {
-                    return root;
-                }
-            }
-        }
-        else if(root.val == q.val)
-        {
-            if(q.val < p.val)
-            {
-                if(root.right!=null && root.right.val == p.val)
-                    return root;
-            }
-            else
-            {
-                if(root.left!=null && root.left.val == p.val)
-                    return root;
+                curr = curr.right;
             }
         }
-        else if(root.val > p.val && root.val < q.val)
-        {
-            if(root.left.val == p.val && root.right.val == q.val)
-                return root;
-        }
-        else if(root.val < p.val && root.val > q.val)
-        {
-            if(root.left.val == q.val && root.right.val == p.val)
-                return root;
-        }
-        else if(root.val > p.val && root.val > q.val)
-        {
-            return lowestCommonAncestor(root.left,p,q);
-        }
-        else
-            return lowestCommonAncestor(root.right,p,q);
-        return root;
+        return null;
     }
     public static void main(String[] args) {
         TreeNode root = new TreeNode(6);
