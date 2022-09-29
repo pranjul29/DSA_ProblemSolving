@@ -27,11 +27,17 @@ Constraints:
 5) p and q will exist in the BST.
 */
 class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
+}
 public class LCA_OfBST {
     public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         int minimum = Math.min(p.val,q.val);

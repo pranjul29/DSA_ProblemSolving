@@ -37,6 +37,18 @@ Tree has been inverted.
 Explanation 2:
 Tree has been inverted.
 */
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
 public class InvertBinaryTree {
     public static TreeNode treeInversion(TreeNode root)
     {

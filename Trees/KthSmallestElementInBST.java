@@ -33,6 +33,18 @@ Explanation 1:
 Explanation 2:
 1st element is 1.
 */
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
 public class KthSmallestElementInBST {
     static int count = 0;
     static int result;
