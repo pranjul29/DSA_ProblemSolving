@@ -27,5 +27,34 @@ Explanation 2:
  Period of the string will be 1.
 */
 public class PeriodOfString {
-    
+    public static int solve(String S) {
+        int[] lps = new int[S.length()];
+        lps[0] = 0;
+        for(int i = 1;i<S.length();i++)
+        {
+            int X = lps[i-1];
+            while(S.charAt(X)!=S.charAt(i))
+            {
+                if(X == 0)
+                {
+                    X = -1;
+                    break;
+                }
+                X = lps[X-1];
+            }
+            lps[i] = X + 1;
+        }
+        System.out.println();
+        for(int i = 0;i<lps.length;i++)
+        {
+            System.out.print(lps[i] + " ");
+        }
+        System.out.println();
+        return S.length() - lps[S.length()-1];
+    }
+    public static void main(String[] args) {
+        //String S = new String("abababab");
+        String S = new String("abcabcdabc");
+        System.out.println(solve(S));
+    }
 }
