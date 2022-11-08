@@ -29,7 +29,7 @@ s contains only lower and upper case English letters.
 */
 import java.util.*;
 public class MakeStringGreat {
-    public String makeGood(String s) {
+    public static String makeGood(String s) {
         Stack<Character> stack = new Stack<>();
         char[] char_array = s.toCharArray();
         for(int i = 0;i<char_array.length;i++)
@@ -50,5 +50,9 @@ public class MakeStringGreat {
             result.append(stack.pop());
         }
         return result.reverse().toString();
+    }
+    public static void main(String[] args) {
+        String s = new String("abBAcC");
+        System.out.println(makeGood(s));
     }
 }
